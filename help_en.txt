@@ -1,0 +1,14 @@
+Help.
+
+Author: Ruslan Dolovanyuk.
+Version: 1.0.
+
+Keys:
+Escape - exit;
+F1 - help;
+F5 - new game;
+F6 - repeat game;
+Q - speak open numbers in block;
+W - speak open numbers in row;
+E - speak open numbers in column;
+C - speak coordinates in format (x; y);
