@@ -61,4 +61,4 @@ class Board:
         self.cells.clear()
         for row in range(self.ROWS):
             for col in range(self.COLS):
-                self.cells.append(Cell(col*self.COLS, row*self.ROWS, self.size_cell, grid[row][col]))
+                self.cells.append(Cell(col*self.size_cell, row*self.size_cell, self.size_cell, grid[row][col]))
