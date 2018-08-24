@@ -1,11 +1,12 @@
 Help.
 
 Author: Ruslan Dolovanyuk aka DollaR
-Version: 1.0
+Version: 1.1
 
 Keys:
 Escape - exit;
 F1 - help;
+F4 - change level;
 F5 - new game;
 F6 - repeat game;
 Q - speak open numbers in block;

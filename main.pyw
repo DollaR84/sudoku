@@ -34,10 +34,13 @@ class Game:
 
     def __init__(self):
         """Initialize running class."""
+        self.__LOW = 33
+        self.__MIDLE = 27
         self.config = ConfigParser()
         self.config.read('settings.ini')
         self.size_x = self.config.getint('screen', 'size_x')
         self.size_y = self.config.getint('screen', 'size_y')
+        self.difficult = self.config.get('board', 'difficult')
 
         with open('languages.dat', 'rb') as lang_file:
             self.phrases = pickle.load(lang_file)[self.config.get('total', 'language')]
@@ -106,6 +109,8 @@ class Game:
                     self.running = False
                 elif pygame.K_F1 == event.key:
                     self.help()
+                elif pygame.K_F4 == event.key:
+                    self.change_level()
                 elif pygame.K_F5 == event.key:
                     self.new_game()
                 elif pygame.K_F6 == event.key:
@@ -175,6 +180,10 @@ class Game:
     def new_game(self):
         """Start new game."""
         self.speech.speak(self.phrases['new_game'])
+        if ('low' == self.difficult) or ('midle' == self.difficult):
+            self.speech.speak(self.phrases[self.difficult])
+        else:
+            self.speech.speak(self.phrases['hard'])
         self.game_over = False
         self.create_sudoku()
         self.player.index = 0
@@ -188,6 +197,19 @@ class Game:
             for line in [line for line in data if '\n' != line]:
                 self.speech.speak(line)
                 time.sleep(0.1)
+
+    def change_level(self):
+        """Change difficult level game."""
+        if 'low' == self.difficult:
+            self.config.set('board', 'difficult', 'midle')
+        elif 'midle' == self.difficult:
+            self.config.set('board', 'difficult', 'hard')
+        elif 'hard' == self.difficult:
+            self.config.set('board', 'difficult', 'low')
+        self.difficult = self.config.get('board', 'difficult')
+        self.speech.speak(self.phrases[self.difficult])
+        with open('settings.ini', 'w') as config_file:
+            self.config.write(config_file)
 
     def create_sudoku(self):
         """Generate and check sudoku."""
@@ -212,6 +234,10 @@ class Game:
                 if 1 != solutions:
                     self.grid[i][j] = temp
                     self.open_cells += 1
+                if ('low' == self.difficult) and (self.__LOW == self.open_cells):
+                    break
+                elif ('midle' == self.difficult) and (self.__MIDLE == self.open_cells):
+                    break
         self.board.init_cells(self.grid)
 
     def check_game_status(self):
