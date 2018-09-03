@@ -13,7 +13,7 @@ from constants import Colors
 
 
 class Player:
-    """Player class for minesweeper."""
+    """Player class for sudoku."""
 
     def __init__(self, board, speech, phrases):
         """Initialize player class."""
