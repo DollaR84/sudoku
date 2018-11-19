@@ -9,6 +9,7 @@ F1 - help;
 F4 - change level;
 F5 - new game;
 F6 - repeat game;
+F9 - change language;
 Q - speak open numbers in block;
 W - speak open numbers in row;
 E - speak open numbers in column;

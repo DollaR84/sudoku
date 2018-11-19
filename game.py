@@ -117,6 +117,8 @@ class Game:
                     self.grid = copy.deepcopy(self.origin)
                     self.board.init_cells(self.grid)
                     self.speech.speak(self.phrases['repeat'])
+                elif pygame.K_F9 == event.key:
+                    self.change_language()
                 elif pygame.K_LEFT == event.key:
                     if not self.game_over:
                         self.player.move(-1, 0)
@@ -208,6 +210,21 @@ class Game:
             self.config.set('board', 'difficult', 'low')
         self.difficult = self.config.get('board', 'difficult')
         self.speech.speak(self.phrases[self.difficult])
+        with open('settings.ini', 'w') as config_file:
+            self.config.write(config_file)
+
+    def change_language(self):
+        """Change language for phrases."""
+        if 'ru' == self.config.get('total', 'language'):
+            self.config.set('total', 'language', 'en')
+            with open('languages.dat', 'rb') as lang_file:
+                self.phrases = pickle.load(lang_file)['en']
+        else:
+            self.config.set('total', 'language', 'ru')
+            with open('languages.dat', 'rb') as lang_file:
+                self.phrases = pickle.load(lang_file)['ru']
+        self.player.phrases = self.phrases
+        self.speech.speak(self.phrases['language'])
         with open('settings.ini', 'w') as config_file:
             self.config.write(config_file)
 
